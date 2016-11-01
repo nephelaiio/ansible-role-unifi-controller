@@ -8,7 +8,7 @@ An [ansible role](https://galaxy.ansible.com/nephelaiio/unifi-controller) to ins
 Role Variables
 --------------
 
-Please refer to the [defaults file](/defaults/main.yml) for an up to date list of input parameters.
+Please refer to the [defaults file](/defaults/main.yml) for an up to date list of input parameters
 
 Dependencies
 ------------
