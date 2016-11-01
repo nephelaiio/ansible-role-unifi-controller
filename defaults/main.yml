@@ -1,6 +1,7 @@
 ---
 # User variables for role
-unifi_controller_packages: 
+
+unifi_controller_packages:
   - unifi
 
 unifi_controller_packages_state: present
@@ -19,4 +20,8 @@ unifi_controller_service_name: unifi
 
 unifi_controller_service_status: started
 
-#unifi-controller_conf_path: /etc/unifi-controller/unifi-controller.conf
+unifi_controller_service_file_source: /lib/systemd/system/unifi.service
+
+unifi_controller_service_file_dir: /etc/systemd/system
+
+unifi_controller_service_file_name: unifi.service

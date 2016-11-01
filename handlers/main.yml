@@ -1,7 +1,7 @@
 ---
 # handlers file for unifi-controller
-- name: restart unifi-controller services
+- name: restart unifi_controller
   service:
-    name=unifi-controller_service_name
+    name="{{ unifi_controller_service_name }}"
     state=restarted
   become: yes

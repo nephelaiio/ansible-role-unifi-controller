@@ -10,7 +10,7 @@
     - unifi-controller
 
 # Install repository
-- name: Install ubnt apt repository
+- name: install ubnt apt repository
   apt_repository: >
     filename="{{ unifi_controller_apt_repo_filename }}"
     repo="{{ unifi_controller_apt_repo_url }}"
@@ -18,7 +18,7 @@
   when: ansible_os_family == "Debian"
 
 # Install repository key
-- name: Install ubnt apt key
+- name: install ubnt apt key
   apt_key: >
     keyserver="{{ unifi_controller_apt_key_server }}"
     id="{{ unifi_controller_apt_key_id }}"
@@ -33,16 +33,35 @@
   become: yes
   tags:
     - unifi-controller
+  notify:
+    - restart unifi_controller
 
 # Manage service
+- name: create systemd service file dir
+  file:
+    state=directory
+    path="{{ unifi_controller_service_file_dir }}"
+  become: yes
+  tags:
+    - unifi-controller
+    - unifi-controller_service
+
+- name: install service file
+  file: >
+    src="{{ unifi_controller_service_file_source }}"
+    path="{{ unifi_controller_service_file_dir }}/{{ unifi_controller_service_file_name }}"
+    state=link
+  become: yes
+  tags:
+    - unifi-controller
+    - unifi-controller_service
+
 - name: manage unifi-controller services
   service: >
     name="{{ unifi_controller_service_name }}"
     state="{{ unifi_controller_service_status }}"
   become: yes
-  when: unifi-controller_service_name is defined
+  when: unifi_controller_service_name is defined
   tags:
     - unifi-controller
     - unifi-controller_service
-  notify:
-    - restart unifi-controller
