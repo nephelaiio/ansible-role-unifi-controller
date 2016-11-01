@@ -15,6 +15,7 @@
     filename="{{ unifi_controller_apt_repo_filename }}"
     repo="{{ unifi_controller_apt_repo_url }}"
     state="{{ unifi_controller_apt_repo_state }}"
+  become: yes
   when: ansible_os_family == "Debian"
 
 # Install repository key
@@ -22,6 +23,7 @@
   apt_key: >
     keyserver="{{ unifi_controller_apt_key_server }}"
     id="{{ unifi_controller_apt_key_id }}"
+  become: yes
   when: ansible_os_family == "Debian"
 
 # Install packages
