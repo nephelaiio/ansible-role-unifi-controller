@@ -1,0 +1,22 @@
+---
+driver:
+  name: docker
+
+docker:
+  containers:
+      - name: ansible-unifi-controller-jessie
+        image: debian
+        image_version: jessie
+        ansible_groups:
+          - test
+      - name: ansible-unifi-controller-xenial
+        image: ubuntu
+        image_version: xenial
+        ansible_groups:
+          - test
+
+#ansible:
+#  requirements_file: dependencies.yml
+
+verifier:
+  name: testinfra

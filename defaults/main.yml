@@ -1,0 +1,22 @@
+---
+# User variables for role
+unifi_controller_packages: 
+  - unifi
+
+unifi_controller_packages_state: present
+
+unifi_controller_apt_repo_filename: ubnt
+
+unifi_controller_apt_repo_url: deb http://www.ubnt.com/downloads/unifi/debian unifi5 ubiquiti
+
+unifi_controller_apt_repo_state: present
+
+unifi_controller_apt_key_server: keyserver.ubuntu.com
+
+unifi_controller_apt_key_id: C0A52C50
+
+unifi_controller_service_name: unifi
+
+unifi_controller_service_status: started
+
+#unifi-controller_conf_path: /etc/unifi-controller/unifi-controller.conf

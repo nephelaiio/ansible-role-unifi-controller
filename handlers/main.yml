@@ -1,0 +1,7 @@
+---
+# handlers file for unifi-controller
+- name: restart unifi-controller services
+  service:
+    name=unifi-controller_service_name
+    state=restarted
+  become: yes
