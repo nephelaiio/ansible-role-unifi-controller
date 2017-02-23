@@ -1,3 +1,4 @@
+# vim: ts=2 sw=2 et :
 ---
 language: python
 
@@ -11,7 +12,6 @@ before_install:
   - sudo apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y docker-engine
 
 install:
-  - pip install molecule
   - pip install -r requirements.txt
 
 script:

@@ -1,3 +1,4 @@
+# vim: ts=2 sw=2 et :
 ---
 # Include variable definitions
 - name: "include variable overrides"
@@ -11,27 +12,27 @@
 
 # Install repository
 - name: install ubnt apt repository
-  apt_repository: >
-    filename="{{ unifi_controller_apt_repo_filename }}"
-    repo="{{ unifi_controller_apt_repo_url }}"
-    state="{{ unifi_controller_apt_repo_state }}"
+  apt_repository:
+    filename: "{{ unifi_controller_apt_repo_filename }}"
+    repo: "{{ unifi_controller_apt_repo_url }}"
+    state: "{{ unifi_controller_apt_repo_state }}"
   become: yes
   when: ansible_os_family == "Debian"
 
 # Install repository key
 - name: install ubnt apt key
-  apt_key: >
-    keyserver="{{ unifi_controller_apt_key_server }}"
-    id="{{ unifi_controller_apt_key_id }}"
+  apt_key:
+    keyserver: "{{ unifi_controller_apt_key_server }}"
+    id: "{{ unifi_controller_apt_key_id }}"
   become: yes
   when: ansible_os_family == "Debian"
 
 # Install packages
 - name: install unifi-controller packages
-  package: >
-    allow_unauthenticated=yes
-    name="{{ unifi_controller_packages }}"
-    state="{{ unifi_controller_packages_state }}"
+  package:
+    allow_unauthenticated: yes
+    name: "{{ unifi_controller_packages }}"
+    state: "{{ unifi_controller_packages_state }}"
   become: yes
   tags:
     - unifi-controller
@@ -41,27 +42,27 @@
 # Manage service
 - name: create systemd service file dir
   file:
-    state=directory
-    path="{{ unifi_controller_service_file_dir }}"
+    state: directory
+    path: "{{ unifi_controller_service_file_dir }}"
   become: yes
   tags:
     - unifi-controller
     - unifi-controller_service
 
 - name: install service file
-  file: >
-    src="{{ unifi_controller_service_file_source }}"
-    path="{{ unifi_controller_service_file_dir }}/{{ unifi_controller_service_file_name }}"
-    state=link
+  file:
+    src: "{{ unifi_controller_service_file_source }}"
+    path: "{{ unifi_controller_service_file_dir }}/{{ unifi_controller_service_file_name }}"
+    state: link
   become: yes
   tags:
     - unifi-controller
     - unifi-controller_service
 
 - name: manage unifi-controller services
-  service: >
-    name="{{ unifi_controller_service_name }}"
-    state="{{ unifi_controller_service_status }}"
+  service:
+    name: "{{ unifi_controller_service_name }}"
+    state: "{{ unifi_controller_service_status }}"
   become: yes
   when: unifi_controller_service_name is defined
   tags:

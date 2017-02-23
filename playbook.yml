@@ -1,10 +1,13 @@
+# vim: ts=2 sw=2 et :
 ---
 - hosts: all
   pre_tasks:
     - name: "installing testing packages"
-      action: package
-              name=wget,net-tools
-              state=installed
+      package:
+        name:
+          - wget
+          - net-tools
+        state: installed
       when: ansible_os_family == 'Debian'
   roles:
     - role: unifi-controller
