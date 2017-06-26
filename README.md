@@ -1,5 +1,5 @@
 nephelaiio.unifi-controller
-=========
+==============================
 
 [![Build Status](https://travis-ci.org/nephelaiio/ansible-role-unifi-controller.svg?branch=master)](https://travis-ci.org/nephelaiio/ansible-role-unifi-controller)
 
