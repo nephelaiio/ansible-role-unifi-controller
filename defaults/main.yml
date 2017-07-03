@@ -9,7 +9,7 @@ unifi_controller_packages_state: present
 
 unifi_controller_apt_repo_filename: ubnt
 
-unifi_controller_apt_repo_url: deb http://www.ubnt.com/downloads/unifi/debian unifi5 ubiquiti
+unifi_controller_apt_repo_url: deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti
 
 unifi_controller_apt_repo_state: present
 
