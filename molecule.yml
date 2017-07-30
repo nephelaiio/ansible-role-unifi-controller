@@ -7,11 +7,15 @@ docker:
   containers:
     - name: ansible-unifi-controller-jessie
       image: debian
+      privileged: True
+      dockerfile: docker/jessie.dockerfile
       image_version: jessie
       ansible_groups:
         - test
     - name: ansible-unifi-controller-xenial
       image: ubuntu
+      privileged: True
+      dockerfile: docker/xenial.dockerfile
       image_version: xenial
       ansible_groups:
         - test
