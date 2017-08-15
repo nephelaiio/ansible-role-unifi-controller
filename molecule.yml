@@ -12,13 +12,6 @@ docker:
       image_version: jessie
       ansible_groups:
         - test
-    - name: ansible-unifi-controller-xenial
-      image: ubuntu
-      privileged: True
-      dockerfile: docker/xenial.dockerfile
-      image_version: xenial
-      ansible_groups:
-        - test
 
 molecule:
   ignore_paths:
@@ -30,3 +23,8 @@ verifier:
   name: testinfra
   options:
       ignore: roles
+
+ansible:
+  group_vars:
+    test:
+      test: yes

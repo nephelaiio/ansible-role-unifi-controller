@@ -8,63 +8,99 @@
     - "vars/{{ ansible_distribution }}.yml"
     - "vars/{{ ansible_os_family }}.yml"
   tags:
-    - unifi-controller
+    - unifi
 
 # Install repository
 - name: install ubnt apt repository
   apt_repository:
-    filename: "{{ unifi_controller_apt_repo_filename }}"
-    repo: "{{ unifi_controller_apt_repo_url }}"
-    state: "{{ unifi_controller_apt_repo_state }}"
+    filename: "{{ unifi.repo.name }}"
+    repo: "{{ unifi.repo.url }}"
+    state: "{{ unifi.repo.state }}"
   become: yes
   when: ansible_os_family == "Debian"
+  tags:
+    - unifi
 
 # Install repository key
 - name: install ubnt apt key
   apt_key:
-    keyserver: "{{ unifi_controller_apt_key_server }}"
-    id: "{{ unifi_controller_apt_key_id }}"
+    keyserver: "{{ unifi.repo.key.server }}"
+    id: "{{ unifi.repo.key.id }}"
   become: yes
   when: ansible_os_family == "Debian"
+  tags:
+    - unifi
+
+# Install java packages
+- name: install java packages
+  apt:
+    allow_unauthenticated: yes
+    name: "{{ item }}"
+    state: "{{ unifi.package.state }}"
+    update_cache: yes
+  with_items: "{{ unifi.java.package.names }}"
+  become: yes
+  when: test is undefined
+  tags:
+    - unifi
+  notify:
+    - restart unifi
 
 # Install packages
 - name: install unifi-controller packages
-  package:
+  apt:
     allow_unauthenticated: yes
-    name: "{{ unifi_controller_packages }}"
-    state: "{{ unifi_controller_packages_state }}"
+    name: "{{ item }}"
+    state: "{{ unifi.package.state }}"
+    update_cache: yes
+  with_items: "{{ unifi.package.names }}"
   become: yes
   tags:
-    - unifi-controller
+    - unifi
   notify:
-    - restart unifi_controller
+    - restart unifi
 
-# Manage service
-- name: create systemd service file dir
-  file:
-    state: directory
-    path: "{{ unifi_controller_service_file_dir }}"
+# Update unifi snappy java
+- name: update unifi-controller snappy java
+  get_url:
+    url: "{{ unifi.java.snappy.url }}"
+    checksum: "{{ unifi.java.snappy.checksum }}"
+    dest: "{{ unifi.java.snappy.file }}"
   become: yes
   tags:
-    - unifi-controller
-    - unifi-controller_service
+    - unifi
+  notify:
+    - restart unifi
 
-- name: install service file
-  file:
-    src: "{{ unifi_controller_service_file_source }}"
-    path: "{{ unifi_controller_service_file_dir }}/{{ unifi_controller_service_file_name }}"
-    state: link
+- name: disable mongodb default instance
+  lineinfile:
+    path: '{{ unifi.mongodb.config.file }}'
+    regexp: '^ENABLE_MONGODB='
+    line: 'ENABLE_MONGODB=no'
   become: yes
   tags:
-    - unifi-controller
-    - unifi-controller_service
+    - unifi
+  notify:
+    - restart mongodb
+
+- name: configure java for unifi
+  lineinfile:
+    create: yes
+    path: '{{ unifi.config.file }}'
+    regexp: '^JAVA_HOME='
+    line: 'JAVA_HOME={{ unifi.java.home }}'
+  become: yes
+  tags:
+    - unifi
+  notify:
+    - restart unifi
 
 - name: manage unifi-controller services
   service:
-    name: "{{ unifi_controller_service_name }}"
-    state: "{{ unifi_controller_service_status }}"
+    name: "{{ item }}"
+    state: "{{ unifi.service.state }}"
+  with_items: "{{ unifi.service.names }}"
   become: yes
-  when: unifi_controller_service_name is defined
+  when: unifi.service.names is defined
   tags:
-    - unifi-controller
-    - unifi-controller_service
+    - unifi

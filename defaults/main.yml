@@ -1,28 +1,36 @@
 # vim: ts=2 sw=2 et :
 ---
-# User variables for role
-
-unifi_controller_packages:
-  - unifi
-
-unifi_controller_packages_state: present
-
-unifi_controller_apt_repo_filename: ubnt
-
-unifi_controller_apt_repo_url: deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti
-
-unifi_controller_apt_repo_state: present
-
-unifi_controller_apt_key_server: keyserver.ubuntu.com
-
-unifi_controller_apt_key_id: C0A52C50
-
-unifi_controller_service_name: unifi
-
-unifi_controller_service_status: started
-
-unifi_controller_service_file_source: /lib/systemd/system/unifi.service
-
-unifi_controller_service_file_dir: /etc/systemd/system
-
-unifi_controller_service_file_name: unifi.service
+unifi:
+  package:
+    names:
+      - unifi
+    state: present
+  repo:
+    name: ubiquiti
+    url: deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti
+    state: present
+    key:
+      server: keyserver.ubuntu.com
+      id: C0A52C50
+  service:
+    names:
+      - unifi
+    state: started
+    enabled: yes
+  config:
+    file: /etc/default/unifi
+  java:
+    package:
+      names:
+        - oracle-java8-jdk
+    snappy:
+      url: 'https://repo1.maven.org/maven2/org/xerial/snappy/snappy-java/1.1.2.6/snappy-java-1.1.2.6.jar'
+      checksum: 'sha256:61f7bc4076be0320ab4ef076fb6d83e3f649c3caf9ffb6031654a73f9c23732f'
+      file: /usr/lib/unifi/lib/snappy-java-1.0.5.jar
+    home: /usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt
+  mongodb:
+    config:
+      file: /etc/mongodb.conf
+    service:
+      names:
+        - mongodb

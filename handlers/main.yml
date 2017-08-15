@@ -1,8 +1,15 @@
 # vim: ts=2 sw=2 et :
 ---
-# handlers file for unifi-controller
-- name: restart unifi_controller
+# Restart services
+- name: restart unifi
   service:
-    name="{{ unifi_controller_service_name }}"
-    state=restarted
+    name: "{{ item }}"
+    state: restarted
+  with_items: "{{ unifi.service.names }}"
+  become: yes
+- name: restart mongodb
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items: "{{ unifi.service.names }}"
   become: yes
