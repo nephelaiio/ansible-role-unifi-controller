@@ -1,0 +1,31 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: debian
+    image: debian:stretch
+    privileged: true
+  - name: ubuntu
+    image: ubuntu:xenial
+    privileged: true
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+scenario:
+  name: default
+  test_sequence:
+    - destroy
+    - create
+    - converge
+    - lint
+    - verify
+    - destroy
+verifier:
+  name: testinfra
+  lint:
+    name: flake8

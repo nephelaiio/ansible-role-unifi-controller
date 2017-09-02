@@ -1,15 +1,12 @@
-# vim: ts=2 sw=2 et :
 ---
-# Restart services
 - name: restart unifi
   service:
-    name: "{{ item }}"
+    name: "{{ unifi.service.name }}"
     state: restarted
-  with_items: "{{ unifi.service.names }}"
   become: yes
+
 - name: restart mongodb
   service:
-    name: "{{ item }}"
+    name: "{{ unifi.service.name }}"
     state: restarted
-  with_items: "{{ unifi.service.names }}"
   become: yes

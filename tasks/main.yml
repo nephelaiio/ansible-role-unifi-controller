@@ -1,16 +1,33 @@
-# vim: ts=2 sw=2 et :
 ---
-# Include variable definitions
-- name: "include variable overrides"
+- name: include variable overrides
   include_vars: "{{ item }}"
   with_first_found:
-    - "vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-    - "vars/{{ ansible_distribution }}.yml"
-    - "vars/{{ ansible_os_family }}.yml"
+    - files:
+        - "vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+        - "vars/{{ ansible_distribution }}.yml"
+        - "vars/{{ ansible_os_family }}.yml"
+      skip: true
   tags:
     - unifi
 
-# Install repository
+- name: install gpg
+  apt:
+    name: gnupg
+    state: present
+  become: yes
+  when: ansible_os_family == "Debian"
+  tags:
+    - unifi
+
+- name: install ubnt apt key
+  apt_key:
+    keyserver: "{{ unifi.repo.key.server }}"
+    id: "{{ unifi.repo.key.id }}"
+  become: yes
+  when: ansible_os_family == "Debian"
+  tags:
+    - unifi
+
 - name: install ubnt apt repository
   apt_repository:
     filename: "{{ unifi.repo.name }}"
@@ -21,47 +38,33 @@
   tags:
     - unifi
 
-# Install repository key
-- name: install ubnt apt key
-  apt_key:
-    keyserver: "{{ unifi.repo.key.server }}"
-    id: "{{ unifi.repo.key.id }}"
-  become: yes
-  when: ansible_os_family == "Debian"
-  tags:
-    - unifi
-
-# Install java packages
 - name: install java packages
   apt:
     allow_unauthenticated: yes
-    name: "{{ item }}"
-    state: "{{ unifi.package.state }}"
+    name: "{{ unifi.java.package.name }}"
+    state: "{{ unifi.java.package.state }}"
     update_cache: yes
-  with_items: "{{ unifi.java.package.names }}"
   become: yes
-  when: test is undefined
+  when: ansible_architecture == "armv7l"
   tags:
     - unifi
   notify:
     - restart unifi
 
-# Install packages
 - name: install unifi-controller packages
   apt:
     allow_unauthenticated: yes
     name: "{{ item }}"
     state: "{{ unifi.package.state }}"
     update_cache: yes
-  with_items: "{{ unifi.package.names }}"
+  with_items: "{{ unifi.package.name }}"
   become: yes
   tags:
     - unifi
   notify:
     - restart unifi
 
-# Update unifi snappy java
-- name: update unifi-controller snappy java
+- name: update snappy java
   get_url:
     url: "{{ unifi.java.snappy.url }}"
     checksum: "{{ unifi.java.snappy.checksum }}"
@@ -95,12 +98,11 @@
   notify:
     - restart unifi
 
-- name: manage unifi-controller services
+- name: manage services
   service:
-    name: "{{ item }}"
+    name: "{{ unifi.service.name }}"
     state: "{{ unifi.service.state }}"
-  with_items: "{{ unifi.service.names }}"
+    enabled: "{{ unifi.service.enabled }}"
   become: yes
-  when: unifi.service.names is defined
   tags:
     - unifi

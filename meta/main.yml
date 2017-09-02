@@ -1,20 +1,16 @@
-# vim: ts=2 sw=2 et :
 ---
 galaxy_info:
   author: Ted Cook
   description: An Ansible role to install and configure unifi-controller
   license: MIT
-
-  min_ansible_version: 2.1
-
+  min_ansible_version: 2.2
   platforms:
-  - name: Ubuntu
-    versions:
-    - xenial
-  - name: Debian
-    versions:
-    - jessie
-
+    - name: Ubuntu
+      versions:
+        - xenial
+    - name: Debian
+      versions:
+        - stretch
   galaxy_tags:
     - unifi-controller
 

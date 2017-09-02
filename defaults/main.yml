@@ -2,8 +2,7 @@
 ---
 unifi:
   package:
-    names:
-      - unifi
+    name: unifi
     state: present
   repo:
     name: ubiquiti
@@ -11,18 +10,18 @@ unifi:
     state: present
     key:
       server: keyserver.ubuntu.com
-      id: C0A52C50
+      id: 06E85760C0A52C50
   service:
-    names:
-      - unifi
+    name: unifi
     state: started
     enabled: yes
   config:
     file: /etc/default/unifi
   java:
     package:
-      names:
+      name:
         - oracle-java8-jdk
+      state: present
     snappy:
       url: 'https://repo1.maven.org/maven2/org/xerial/snappy/snappy-java/1.1.2.6/snappy-java-1.1.2.6.jar'
       checksum: 'sha256:61f7bc4076be0320ab4ef076fb6d83e3f649c3caf9ffb6031654a73f9c23732f'
@@ -32,5 +31,5 @@ unifi:
     config:
       file: /etc/mongodb.conf
     service:
-      names:
+      name:
         - mongodb
