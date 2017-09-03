@@ -8,10 +8,16 @@ lint:
 platforms:
   - name: debian
     image: debian:stretch
-    privileged: true
+    privileged: True
+    command: /usr/sbin/init
+    volume_mounts:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
   - name: ubuntu
     image: ubuntu:xenial
-    privileged: true
+    privileged: True
+    command: /sbin/init
+    volume_mounts:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
 provisioner:
   name: ansible
   lint:

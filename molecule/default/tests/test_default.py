@@ -8,3 +8,4 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 def test_service(Service):
     assert Service('unifi').is_enabled
+    assert Service('unifi').is_running
