@@ -9,7 +9,7 @@ platforms:
   - name: debian
     image: debian:stretch
     privileged: True
-    command: /usr/sbin/init
+    command: /sbin/init
     volume_mounts:
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
   - name: ubuntu
