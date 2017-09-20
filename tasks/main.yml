@@ -7,8 +7,6 @@
         - "vars/{{ ansible_distribution }}.yml"
         - "vars/{{ ansible_os_family }}.yml"
       skip: true
-  tags:
-    - unifi
 
 - name: install gpg
   apt:
@@ -16,8 +14,6 @@
     state: present
   become: yes
   when: ansible_os_family == "Debian"
-  tags:
-    - unifi
 
 - name: install ubnt apt key
   apt_key:
@@ -25,8 +21,6 @@
     id: "{{ unifi.repo.key.id }}"
   become: yes
   when: ansible_os_family == "Debian"
-  tags:
-    - unifi
 
 - name: install ubnt apt repository
   apt_repository:
@@ -35,8 +29,6 @@
     state: "{{ unifi.repo.state }}"
   become: yes
   when: ansible_os_family == "Debian"
-  tags:
-    - unifi
 
 - name: install java packages
   apt:
@@ -46,8 +38,6 @@
     update_cache: yes
   become: yes
   when: ansible_architecture == "armv7l"
-  tags:
-    - unifi
   notify:
     - restart unifi
 
@@ -59,8 +49,6 @@
     update_cache: yes
   with_items: "{{ unifi.package.name }}"
   become: yes
-  tags:
-    - unifi
   notify:
     - restart unifi
 
@@ -70,8 +58,6 @@
     checksum: "{{ unifi.java.snappy.checksum }}"
     dest: "{{ unifi.java.snappy.file }}"
   become: yes
-  tags:
-    - unifi
   notify:
     - restart unifi
 
@@ -81,8 +67,6 @@
     regexp: '^ENABLE_MONGODB='
     line: 'ENABLE_MONGODB=no'
   become: yes
-  tags:
-    - unifi
   notify:
     - restart mongodb
 
@@ -93,8 +77,6 @@
     regexp: '^JAVA_HOME='
     line: 'JAVA_HOME={{ unifi.java.home }}'
   become: yes
-  tags:
-    - unifi
   notify:
     - restart unifi
 
@@ -104,5 +86,3 @@
     state: "{{ unifi.service.state }}"
     enabled: "{{ unifi.service.enabled }}"
   become: yes
-  tags:
-    - unifi
