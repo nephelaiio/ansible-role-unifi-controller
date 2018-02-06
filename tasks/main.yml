@@ -1,13 +1,4 @@
 ---
-- name: include variable overrides
-  include_vars: "{{ item }}"
-  with_first_found:
-    - files:
-        - "vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-        - "vars/{{ ansible_distribution }}.yml"
-        - "vars/{{ ansible_os_family }}.yml"
-      skip: true
-
 - name: install gpg
   apt:
     name: gnupg
@@ -17,24 +8,24 @@
 
 - name: install ubnt apt key
   apt_key:
-    keyserver: "{{ unifi.repo.key.server }}"
-    id: "{{ unifi.repo.key.id }}"
+    keyserver: "{{ unifi_repo_key_server }}"
+    id: "{{ unifi_repo_key_id }}"
   become: yes
   when: ansible_os_family == "Debian"
 
 - name: install ubnt apt repository
   apt_repository:
-    filename: "{{ unifi.repo.name }}"
-    repo: "{{ unifi.repo.url }}"
-    state: "{{ unifi.repo.state }}"
+    filename: "{{ unifi_repo_name }}"
+    repo: "{{ unifi_repo_url }}"
+    state: "{{ unifi_repo_state }}"
   become: yes
   when: ansible_os_family == "Debian"
 
 - name: install java packages
   apt:
     allow_unauthenticated: yes
-    name: "{{ unifi.java.package.name }}"
-    state: "{{ unifi.java.package.state }}"
+    name: "{{ unifi_java_packages }}"
+    state: "{{ unifi_packages_state }}"
     update_cache: yes
   become: yes
   when: ansible_architecture == "armv7l"
@@ -45,25 +36,25 @@
   apt:
     allow_unauthenticated: yes
     name: "{{ item }}"
-    state: "{{ unifi.package.state }}"
+    state: "{{ unifi_packages_state }}"
     update_cache: yes
-  with_items: "{{ unifi.package.name }}"
+  with_items: "{{ unifi_packages }}"
   become: yes
   notify:
     - restart unifi
 
 - name: update snappy java
   get_url:
-    url: "{{ unifi.java.snappy.url }}"
-    checksum: "{{ unifi.java.snappy.checksum }}"
-    dest: "{{ unifi.java.snappy.file }}"
+    url: "{{ unifi_java_snappy_url }}"
+    checksum: "{{ unifi_java_snappy_checksum }}"
+    dest: "{{ unifi_java_snappy_file }}"
   become: yes
   notify:
     - restart unifi
 
 - name: disable mongodb default instance
   lineinfile:
-    path: '{{ unifi.mongodb.config.file }}'
+    path: '{{ unifi_mongodb_config }}'
     regexp: '^ENABLE_MONGODB='
     line: 'ENABLE_MONGODB=no'
   become: yes
@@ -73,16 +64,16 @@
 - name: configure java for unifi
   lineinfile:
     create: yes
-    path: '{{ unifi.config.file }}'
+    path: '{{ unifi_config_file }}'
     regexp: '^JAVA_HOME='
-    line: 'JAVA_HOME={{ unifi.java.home }}'
+    line: 'JAVA_HOME={{ unifi_java_home }}'
   become: yes
   notify:
     - restart unifi
 
 - name: manage services
   service:
-    name: "{{ unifi.service.name }}"
-    state: "{{ unifi.service.state }}"
-    enabled: "{{ unifi.service.enabled }}"
+    name: "{{ unifi_services }}"
+    state: "{{ unifi_services_state }}"
+    enabled: "{{ unifi_services_enabled }}"
   become: yes

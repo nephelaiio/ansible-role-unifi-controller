@@ -1,35 +1,24 @@
 # vim: ts=2 sw=2 et :
 ---
-unifi:
-  package:
-    name: unifi
-    state: present
-  repo:
-    name: ubiquiti
-    url: deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti
-    state: present
-    key:
-      server: keyserver.ubuntu.com
-      id: 06E85760C0A52C50
-  service:
-    name: unifi
-    state: started
-    enabled: yes
-  config:
-    file: /etc/default/unifi
-  java:
-    package:
-      name:
-        - oracle-java8-jdk
-      state: present
-    snappy:
-      url: 'https://repo1.maven.org/maven2/org/xerial/snappy/snappy-java/1.1.2.6/snappy-java-1.1.2.6.jar'
-      checksum: 'sha256:61f7bc4076be0320ab4ef076fb6d83e3f649c3caf9ffb6031654a73f9c23732f'
-      file: /usr/lib/unifi/lib/snappy-java-1.0.5.jar
-    home: /usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt
-  mongodb:
-    config:
-      file: /etc/mongodb.conf
-    service:
-      name:
-        - mongodb
+unifi_packages:
+  - unifi
+unifi_packages_state: present
+unifi_repo_name: ubiquiti
+unifi_repo_url: deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti
+unifi_repo_state: present
+unifi_repo_key_server: keyserver.ubuntu.com
+unifi_repo_key_id: 06E85760C0A52C50
+unifi_services:
+  - unifi
+unifi_services_state: started
+unifi_services_enabled: yes
+unifi_config_file: /etc/default/unifi
+unifi_java_packages:
+  - oracle-java8-jdk
+unifi_java_home: /usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt
+unifi_java_snappy_url: https://repo1.maven.org/maven2/org/xerial/snappy/snappy-java/1.1.2.6/snappy-java-1.1.2.6.jar
+unifi_java_snappy_checksum: sha256:61f7bc4076be0320ab4ef076fb6d83e3f649c3caf9ffb6031654a73f9c23732f
+unifi_java_snappy_file: /usr/lib/unifi/lib/snappy-java-1.0.5.jar
+unifi_mongodb_config: /etc/mongodb.conf
+unifi_mongodb_services:
+  - mongodb
