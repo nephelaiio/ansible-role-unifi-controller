@@ -1,7 +1,7 @@
 ---
 - name: install dependencies
   apt:
-    name: "{{ unfii_package_dependencies }}"
+    name: "{{ unifi_package_dependencies }}"
     state: present
   become: yes
 
