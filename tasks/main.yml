@@ -32,10 +32,9 @@
 - name: install unifi-controller packages
   apt:
     allow_unauthenticated: yes
-    name: "{{ item }}"
+    name: "{{ unifi_packages }}"
     state: "{{ unifi_packages_state }}"
     update_cache: yes
-  with_items: "{{ unifi_packages }}"
   become: yes
   notify:
     - restart unifi
