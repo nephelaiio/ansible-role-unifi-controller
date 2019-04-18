@@ -11,10 +11,22 @@ Please refer to the [defaults file](/defaults/main.yml) for an up to date list o
 
 ## Example Playbook
 
+Unifi installation on regular x86_64 hardware
+
 ```
 - hosts: unifi
   roles:
      - role: unifi-controller
+```
+
+Unifi installation on raspberry pi 3
+```
+- hosts: unifi
+  roles:
+     - role: unifi-controller
+  vars:
+    unifi_java_packages: /usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt
+    unifi_java_home: oracle-java8-jdk
 ```
 
 ## Testing
