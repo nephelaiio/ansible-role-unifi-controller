@@ -1,17 +1,15 @@
 ---
-- name: install gpg
+- name: install dependencies
   apt:
-    name: gnupg
+    name: "{{ unfii_package_dependencies }}"
     state: present
   become: yes
-  when: ansible_os_family == "Debian"
 
 - name: install ubnt apt key
   apt_key:
     keyserver: "{{ unifi_repo_key_server }}"
     id: "{{ unifi_repo_key_id }}"
   become: yes
-  when: ansible_os_family == "Debian"
 
 - name: install ubnt apt repository
   apt_repository:

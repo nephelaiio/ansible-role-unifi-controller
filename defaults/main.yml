@@ -1,5 +1,8 @@
 # vim: ts=2 sw=2 et :
 ---
+unifi_package_dependencies:
+  - gnupg
+  - apt-transport-https
 unifi_packages:
   - unifi
 unifi_packages_state: present
