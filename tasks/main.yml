@@ -28,7 +28,6 @@
     state: "{{ unifi_packages_state }}"
     update_cache: yes
   become: yes
-  when: ansible_architecture == "armv7l"
   notify:
     - restart unifi
 

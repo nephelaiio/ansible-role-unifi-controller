@@ -13,9 +13,8 @@ unifi_services:
 unifi_services_state: started
 unifi_services_enabled: yes
 unifi_config_file: /etc/default/unifi
-unifi_java_packages:
-  - oracle-java8-jdk
-unifi_java_home: /usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt
+unifi_java_packages: openjdk-8-jre-headless
+unifi_java_home: /usr/lib/jvm/java-8-openjdk-amd64
 unifi_java_snappy_url: https://repo1.maven.org/maven2/org/xerial/snappy/snappy-java/1.1.2.6/snappy-java-1.1.2.6.jar
 unifi_java_snappy_checksum: sha256:61f7bc4076be0320ab4ef076fb6d83e3f649c3caf9ffb6031654a73f9c23732f
 unifi_java_snappy_file: /usr/lib/unifi/lib/snappy-java-1.0.5.jar
