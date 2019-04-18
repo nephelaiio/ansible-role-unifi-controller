@@ -12,6 +12,7 @@ galaxy_info:
       versions:
         - stretch
   galaxy_tags:
-    - unifi-controller
+    - unifi
+    - controller
 
 dependencies: []
