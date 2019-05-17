@@ -25,8 +25,8 @@ Unifi installation on raspberry pi 3
   roles:
      - role: unifi-controller
   vars:
-    unifi_java_packages: /usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt
-    unifi_java_home: oracle-java8-jdk
+    unifi_java_packages: openjdk-8-jre-headless
+    unifi_java_home: /usr/lib/jvm/java-8-openjdk-armhf/jre
 ```
 
 ## Testing
