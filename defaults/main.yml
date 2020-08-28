@@ -3,6 +3,7 @@
 unifi_package_dependencies:
   - gnupg
   - apt-transport-https
+  - ca-certificates
 unifi_packages:
   - unifi
 unifi_packages_state: present
