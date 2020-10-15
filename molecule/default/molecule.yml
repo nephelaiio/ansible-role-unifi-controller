@@ -3,8 +3,10 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
 platforms:
   - name: debian
     image: debian:stretch
@@ -24,18 +26,12 @@ platforms:
       container: docker
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
 scenario:
   name: default
   test_sequence:
-    - lint
-    - destroy
     - create
     - converge
     - verify
     - destroy
 verifier:
   name: testinfra
-  lint:
-    name: flake8
