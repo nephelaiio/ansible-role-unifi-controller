@@ -1,7 +1,7 @@
 # nephelaiio.unifi-controller
 
-[![Build Status](https://travis-ci.org/nephelaiio/ansible-role-unifi-controller.svg?branch=master)](https://travis-ci.org/nephelaiio/ansible-role-unifi-controller)
-[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-systemd--service-blue.svg)](https://galaxy.ansible.com/nephelaiio/unifi-controller/)
+[![Build Status](https://github.com/nephelaiio/ansible-role-unifi-controller/workflows/CI/badge.svg)](https://github.com/nephelaiio/ansible-role-unifi-controller/actions)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-nephelaiio.unifi-controller-blue.svg)](https://galaxy.ansible.com/nephelaiio/unifi-controller/)
 
 An [ansible role](https://galaxy.ansible.com/nephelaiio/unifi-controller) to install and configure [Ubiquiti Unifi Controller](https://www.ubnt.com/enterprise/software/)
 

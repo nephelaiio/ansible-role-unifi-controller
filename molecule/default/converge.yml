@@ -1,5 +1,10 @@
 ---
 - name: Converge
   hosts: all
+  pre_tasks:
+    - name: update apt package cache
+      apt:
+        update_cache: yes
+      when: (ansible_os_family | lower) == 'debian'
   roles:
-    - role: nephelaiio.unifi-controller
+    - role: nephelaiio.unifi_controller

@@ -3,29 +3,18 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint: |
-  set -e
-  yamllint .
-  ansible-lint .
 platforms:
-  - name: debian
-    image: debian:stretch
-    privileged: True
-    command: /sbin/init
-    volume_mounts:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:rw"
-    environment:
-      container: docker
-  - name: xenial
-    image: ubuntu:xenial
-    privileged: True
-    command: /sbin/init
-    volume_mounts:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:rw"
-    environment:
-      container: docker
+  - name: instance
+    image: "${MOLECULE_DOCKER_IMAGE}"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
 provisioner:
   name: ansible
+  playbooks:
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
 scenario:
   name: default
   test_sequence:

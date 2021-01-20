@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: unifi_controller
   author: Ted Cook
   description: An Ansible role to install and configure unifi-controller
   license: MIT
