@@ -8,10 +8,8 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-        - xenial
-    - name: Debian
-      versions:
-        - stretch
+        - Bionic
+        - Focal
   galaxy_tags:
     - unifi
     - controller
