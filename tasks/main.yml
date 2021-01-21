@@ -1,4 +1,10 @@
 ---
+- name: install java
+  include_role:
+    name: geerlingguy.java
+  vars:
+    java_packages: "{{ unifi_java_packages }}"
+
 - name: install dependencies
   apt:
     name: "{{ unifi_package_dependencies }}"
@@ -18,16 +24,6 @@
     state: "{{ unifi_repo_state }}"
   become: yes
   when: ansible_os_family == "Debian"
-
-- name: install java packages
-  apt:
-    allow_unauthenticated: yes
-    name: "{{ unifi_java_packages }}"
-    state: "{{ unifi_packages_state }}"
-    update_cache: yes
-  become: yes
-  notify:
-    - restart unifi
 
 - name: install unifi-controller packages
   apt:

@@ -16,4 +16,6 @@ galaxy_info:
     - unifi
     - controller
 
-dependencies: []
+dependencies:
+  - role: geerlingguy.java
+    when: false

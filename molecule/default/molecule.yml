@@ -19,6 +19,7 @@ scenario:
   name: default
   test_sequence:
     - create
+    - dependency
     - converge
     - verify
     - destroy
